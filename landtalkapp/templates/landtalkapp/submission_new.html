@@ -1,0 +1,9 @@
+{% extends 'landtalkapp/base.html' %}
+
+{% block content %}	
+    <form method="post" enctype="multipart/form-data" style="margin-top: 5%">
+    {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}
