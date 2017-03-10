@@ -6,23 +6,37 @@ from uuid import uuid4
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.utils.deconstruct import deconstructible
 
 def path_and_rename(path, name):
-        def wrapper(instance, filename):
+    def wrapper(instance, filename):
 
-            ext = filename.split('.')[-1]
+        ext = filename.split('.')[-1]
 
-            # get filename
-            if instance.pk:
-                filename = '{}.{}.{}'.format(instance.pk, name, instance.location)
-            else:
-                # set filename as random string
-                filename = '{}.{}'.format(uuid4().hex, name)
-            
-            print "filename: ", filename
-            # return the whole path to the file
-            return os.path.join(path, filename)
-        return wrapper
+        # get filename
+        if instance.pk:
+            filename = '{}.{}.{}'.format(instance.pk, name, instance.location)
+        else:
+            # set filename as random string
+            filename = '{}.{}'.format(uuid4().hex, name)
+        
+        print "filename: ", filename
+        # return the whole path to the file
+        return os.path.join(path, filename)
+    return wrapper
+
+# @deconstructible
+# class PathAndRename(object):
+
+#     def __init__(self, sub_path):
+#         self.path = sub_path
+
+#     def __call__(self, filename):
+#         ext = filename.split('.')[-1]
+#         # set filename as random string
+#         filename = '{}.{}'.format(uuid4().hex, ext)
+#         # return the whole path to the file
+#         return os.path.join(self.path, filename)
 
 def defaultYear():
     return datetime.datetime.now().year
@@ -30,8 +44,9 @@ def defaultYear():
 class Submission(models.Model):
     YEAR_CHOICES = [(r,r) for r in range(1900, datetime.datetime.now().year+1)]
 
+    # path_and_rename = PathAndRename("landtalk/")
+
     pub = models.BooleanField(('Publish'), default=False)
-    # privkey = models.IntegerField(('PK'), default=-1)
     location = models.CharField(max_length=50) #char field?
     lat = models.FloatField(('Latitude')) #restrictions?
     lng = models.FloatField(('Longitude'))
@@ -57,9 +72,7 @@ class Submission(models.Model):
             self.time_posted = timezone.now()
         else:
             self.time_posted = None
-      
-        # self.privkey = instance.pk
-        
+
         # create folder for steward if does not exist
         # stewardPath = 'landtalk/' + str(self.steward)
         # if not os.path.exists(stewardPath):
@@ -68,8 +81,6 @@ class Submission(models.Model):
         #upload images to steward folder and rename accordingly
         # self.hist_img = models.ImageField(('History Image'), upload_to=path_and_rename('/landtalk', 'hist'))
         # self.curr_img = models.ImageField(('Current Image'), upload_to=path_and_rename('/landtalk', 'curr'))
-
-     # <marker id="1" name="Barrow" link="site/barrow.html" lat="71.2906" lng="-156.7886" youtube="https://www.youtube.com/embed/igVKR9--mbQ"/>
 
         super(Submission, self).save(*args, **kwargs)
 

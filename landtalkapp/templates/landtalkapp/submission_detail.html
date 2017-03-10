@@ -1,25 +1,6 @@
 {% extends 'landtalkapp/base.html' %}
 
 {% block content %}
-<!--     <div class="row">
-        <div class="eight columns" style="margin-top: 5%">
-        <h5>News Video</h5>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/y0qDc4hXUSY" frameborder="0" allowfullscreen></iframe>
-        <h5>Summary</h5>
-        <p>{{submission.summary}}</p>
-      </div>
-      <div class="four columns" style="margin-top: 5%">
-        <h5>Observer</h5>
-        <p>TBD</p>
-        <h5>Key Issues</h5>
-        <p>Indigenous Land Rights</p>
-        <h5>Contact Person</h5>
-        <p>TBD</p>
-        <h5>Related Sites</h5>
-             <li>Barrow, AK</li>
-             <li>Maori</li>
-      </div>
-    </div> -->
 
 <div class="row">
     <div class="eight columns" style="margin-top: 5%">
@@ -40,12 +21,16 @@
 <div class="row">
     <div class="six columns" style="margin-top: 5%">
      <h5>{{submission.location}}, {{submission.hist_year}}</h5>
-     <img src={{hist_img}} alt={{submission.location}} width="100%">
+      hist image: {{submission.hist_img}}
+     <img src="../../../media/{{submission.hist_img}}" alt={{submission.location}} width="100%">
      <p>{{submission.hist_caption}}</p> 
     </div>
     <div class="six columns" style="margin-top: 5%">
       <h5>{{submission.location}}, {{submission.curr_year}}</h5>
-      <img src={{curr_img}} alt= {{submission.location}} width="100%">
+      this does not show up- ../../../media/{{submission.curr_img}}
+
+      but this does- ../../static/img/{{submission.curr_img}}
+      <img src="../../static/img/{{submission.curr_img}}" alt={{submission.location}} width="100%">
       <p>{{submission.curr_caption}}</p>
     </div>
 </div>  

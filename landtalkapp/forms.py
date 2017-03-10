@@ -6,4 +6,4 @@ class SubmissionForm(forms.ModelForm):
 
     class Meta:
         model = Submission
-        exclude = ('pub', 'time_submitted', 'time_posted',)
+        exclude = ('pub', 'privkey', 'time_submitted', 'time_posted',)

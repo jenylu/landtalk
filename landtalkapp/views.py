@@ -26,7 +26,7 @@ def submission_new(request):
         if form.is_valid():
             submission = form.save(commit=False)
             submission.save()
-            return redirect('submission_detail', pk=submission.pk) #redirect to thanks for submission
+            return redirect('submission_thankyou') #redirect to thanks for submission
     else:
         form = SubmissionForm()
     return render(request, 'landtalkapp/submission_new.html', {'form': form})
@@ -53,8 +53,11 @@ def submission_edit(request, pk):
         form = SubmissionForm(instance=submission)
     return render(request, 'landtalkapp/submission_new.html', {'form': form})
 
+def submission_thankyou(request):
+	return render(request, 'landtalkapp/submission_thankyou.html')
+
 def map_query(request):
 	submissions = Submission.objects.filter(pub = True)
-	data = serializers.serialize("xml", submissions, fields=('location, lat, lng, videourl'))
+	data = serializers.serialize("xml", submissions, fields=('location, lat, lng, videourl, privkey'))
 	# print(data)
 	return HttpResponse(data, content_type="text/xml; charset=utf-8")
